@@ -19,5 +19,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("accounts/", include("accounts.urls")),
-]
+    path("accounts/", include("accounts.urls")), # for login and register
+    path("api-auth/", include("rest_framework.urls")), # for the django restframework
+    path('summernote/', include('django_summernote.urls')), # for summernote capabilities
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
