@@ -14,6 +14,11 @@ class CategoryListView(generics.ListAPIView):
     serializer_class = CategorySerializer
     permission_classes = (permissions.AllowAny,)   
     
+class CategoryDetailView(generics.RetrieveAPIView): 
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    lookup_field = "category_name" # MUST BE IN CAPS
+    permission_classes = (permissions.AllowAny,)
 
 class BlogEntryListView(generics.ListAPIView):
     queryset = BlogEntry.objects.order_by("-created_on")
