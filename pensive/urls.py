@@ -21,6 +21,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("api-blog/", include("blog.urls")),
     path("accounts/", include("accounts.urls")), # for login and register
     path("api-auth/", include("rest_framework.urls")), # for the django restframework
     path('summernote/', include('django_summernote.urls')), # for summernote capabilities
