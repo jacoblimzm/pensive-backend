@@ -50,44 +50,47 @@ class BlogEntryCreateView(generics.ListCreateAPIView):
     
     def post(self, request, *args, **kwargs):
         
-        username = request.data.get("username", "")
-        password = request.data.get("password", "")
-        email = request.data.get("email", "")
         
-        print(request.data)
-        pass
+        # "slug" and "created_at" not necessary since those will be automatically generated on save
+        title = request.data.get("title")
+        image = request.data.get("image")
+        excerpt = request.data.get("excerpt")
+        month = request.data.get("month") # should be a dropdown in frontend with THREE LETTER MONTHS
+        day = request.data.get("day") # should be a dropdown in frontend with DIGIT DAYS
+        content = request.data.get("content") 
+        breaking = request.data.get("breaking") # boolean. drop down in FRONTEND
+        category = request.data.get("category") # should be a dropdown in frontend with uncapped category names
+        # print(request.data["title"])
+        # print(title, image, excerpt, month, day, content, breaking, category)
+        if not request.data:
+            return Response(data={
+                    "success": False,
+                    "message": "no data received"
+                    }
+            )
+        elif not title or not image or not excerpt or not month or not day or not content or not category: # cannot include "breaking" here as it will mess up the conditional
+            return Response(data={
+                    "success": False,
+                    "message": "ensure all fields are filled in!"
+                }
+            )
         
-        return Response (data={
-            "success": True,
-            "message": "post has been created successfully!"
-        })
-        # if not username or not password or not email: # ensures all fields are filled
-        #         return Response(
-        #             data={
-        #                 "message": "username, password and email is required to register a user",
-        #                 "success": False
-        #             },
-        #             status=status.HTTP_400_BAD_REQUEST
-        #         )
-        # try: 
-        #     result = User.objects.get(username=username) # checks to see if user already exists, throws a DoesNotExist Error if a user is not found
-        #     print(f"adasdasdasdasdasdasdasd {result}") 
-        #     if result:
-        #         return Response(data={
-        #             "success": False,
-        #             "message": f"{username} is not available"
-        #         })
-                
-        # except User.DoesNotExist:
-        #     new_user = User.objects.create_user(
-        #             username=username, password=password, email=email
-        #     )
-        #     print(f"adasdasdasdasdasdasdasd {new_user}")
-        #     return Response(data={
-        #         "success": True,
-        #         "message": f"{new_user} successfully created"
-        #     },
-        #         status=status.HTTP_201_CREATED)
+        else:
+            # category_instance = Category(category_name=category)
+            # print(category_instance["id"])
+            # request.data["category"] = category_instance
+            # print(request.data["category"])
+            category_result = Category.objects.get(category_name__iexact = category) # search database to get back categories and their respective id
+            category_id = category_result.id
+            # print(category_id)
+            new_entry = BlogEntry(title=title, image=image, excerpt=excerpt, month=month, day=day, content=content, breaking=breaking, category_id=category_id)
+            # print(new_entry.category_id)
+            new_entry.save()
+            
+            return Response(data={
+                "success": True,
+                "message": f"{new_entry.title} has been created successfully!"
+            }, status=status.HTTP_201_CREATED)
     
     
     
