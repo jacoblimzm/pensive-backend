@@ -26,7 +26,7 @@ class LoginView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs): # deals with a POST request
         username = request.data.get("username", "")
         password = request.data.get("password", "")
         user = authenticate(request, username=username, password=password)
@@ -118,7 +118,7 @@ class RegisterUsersView(generics.ListCreateAPIView):
             new_user = User.objects.create_user(
                     username=username, password=password, email=email
             )
-            print(f"adasdasdasdasdasdasdasd {new_user}");
+            print(f"adasdasdasdasdasdasdasd {new_user}")
             return Response(data={
                 "success": True,
                 "message": f"{new_user} successfully created"
