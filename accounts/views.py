@@ -162,7 +162,7 @@ class EditUsersView(generics.RetrieveUpdateDestroyAPIView):
             user_serializer = UserSerializer(existing_user)
             return Response(
                 data={
-                    "data": user_serializer.data
+                    "data": user_serializer.data,
                     "message": f"'{existing_user}' updated successfully",
                     "success": True
                 },
