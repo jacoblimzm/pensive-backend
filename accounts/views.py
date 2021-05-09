@@ -157,9 +157,9 @@ class EditUsersView(generics.RetrieveUpdateDestroyAPIView):
             existing_user.username = username # you can only access django objects using dot notation. wtF
             existing_user.email = email
             existing_user.set_password(password) #using the django helper function to reset the password using new input
-            # existing_user.save()
+            existing_user.save()
             
-            
+            user_serializer = UserSerializer(existing_user)
             return Response(
                 data={
                     "data": user_serializer.data
