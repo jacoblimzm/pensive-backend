@@ -131,7 +131,7 @@ class EditUsersView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    lookup_field = "username" # query by the username to find details and update or delete. recall that lookup_field must correspond with 
+    lookup_field = "username" # query by the username to find details and update or delete. recall that lookup_field must correspond with the param in the url for this view
     
     def put(self, request, *args, **kwargs):
     
@@ -145,7 +145,7 @@ class EditUsersView(generics.RetrieveUpdateDestroyAPIView):
         if not username or not password or not email: # ensures all fields are filled
                 return Response(
                     data={
-                        "message": "username, password and email is required to register a user",
+                        "message": "username, password and email is required to edit user details",
                         "success": False
                     },
                     status=status.HTTP_400_BAD_REQUEST
