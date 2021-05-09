@@ -35,14 +35,16 @@ class LoginView(generics.ListCreateAPIView):
             # using Django’s session framework.
             login(request, user)
             refresh = RefreshToken.for_user(user)
-            serializer = TokenSerializer(data={
+            token_serializer = TokenSerializer(data={
                 # using DRF JWT utility functions to generate a token
                 "token": str(refresh.access_token),
                 })
-            serializer.is_valid()
+            token_serializer.is_valid()
+            user_serializer = UserSerializer(user)
             return Response(
                 data={
-                    **serializer.data, # python "unpacking", similar to spread operator "..." in JS.
+                    **token_serializer.data, # python "unpacking", similar to spread operator "..." in JS.
+                    "data": user_serializer.data,
                     "message": "successfully logged in!",
                     "success": True,
                     }
@@ -155,14 +157,15 @@ class EditUsersView(generics.RetrieveUpdateDestroyAPIView):
             existing_user.username = username # you can only access django objects using dot notation. wtF
             existing_user.email = email
             existing_user.set_password(password) #using the django helper function to reset the password using new input
-            existing_user.save()
+            # existing_user.save()
+            
+            
             return Response(
                 data={
+                    "data": user_serializer.data
                     "message": f"'{existing_user}' updated successfully",
                     "success": True
                 },
                 status=status.HTTP_200_OK
             )
         
-
-            
