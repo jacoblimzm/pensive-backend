@@ -146,14 +146,17 @@ class BlogEntryEditView(generics.RetrieveUpdateDestroyAPIView):
             existing_post.breaking = breaking
             existing_post.category_id = category_id # the django model automatically assigns and _id to a foreign key. remember to include
             
-            
+            serializer = BlogEntrySerializer(existing_post) # serialise the updated data to be sent back to the front end
+            # print(serializer.data)
             # print(existing_post.category_id) 
-            existing_post.save()
+            # existing_post.save()
             
             
             return Response(data={
+                "data": serializer.data,
                 "success": True,
-                "message": f"'{title}' has been updated!"
+                "message": f"'{title}' has been updated!",
+                
             })
             
             # return JsonResponse(existing_post.values("title"), safe=False)
