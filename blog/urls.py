@@ -8,5 +8,6 @@ urlpatterns = [
     path("breaking/", views.BlogEntryBreakingView.as_view()),
     path("categories/", views.CategoryListView.as_view()),
     path("categories/<category_name>", views.CategoryDetailView.as_view()),
-    path("<slug>", views.BlogEntryDetailView.as_view()),
+    path("<slug>/", views.BlogEntryDetailView.as_view()),
+    path("<slug>/edit", views.BlogEntryEditView.as_view()),
 ]
