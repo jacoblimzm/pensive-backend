@@ -132,3 +132,37 @@ class EditUsersView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
     lookup_field = "username" # query by the username to find details and update or delete. recall that lookup_field must correspond with 
+    
+    def put(self, request, *args, **kwargs):
+    
+        user_id = request.data.get("id", "")
+        username = request.data.get("username", "")
+        password = request.data.get("password", "")
+        email = request.data.get("email", "")
+        
+        # print(request.data)
+        
+        if not username or not password or not email: # ensures all fields are filled
+                return Response(
+                    data={
+                        "message": "username, password and email is required to register a user",
+                        "success": False
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        else:
+            existing_user = User.objects.get(pk=user_id)
+            existing_user.username = username # you can only access django objects using dot notation. wtF
+            existing_user.email = email
+            existing_user.set_password(password) #using the django helper function to reset the password using new input
+            existing_user.save()
+            return Response(
+                data={
+                    "message": f"'{existing_user}' updated successfully",
+                    "success": True
+                },
+                status=status.HTTP_200_OK
+            )
+        
+
+            
