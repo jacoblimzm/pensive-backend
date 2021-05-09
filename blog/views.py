@@ -162,6 +162,7 @@ class BlogEntryEditView(generics.RetrieveUpdateDestroyAPIView):
             })
             
     def destroy(self, request, *args, **kwargs): # the default way of returning the deleted object as a response
+        # https://stackoverflow.com/questions/52683250/django-rest-framework-delete-returns-no-content-in-the-body
         serializer = self.get_serializer(self.get_object()) # store the data before deleting it otherwise it's gone
         print(serializer.data)
         super().destroy(request, *args, **kwargs) # calling the super class and the method destroy that belongs to it to delete the object
