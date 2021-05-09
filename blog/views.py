@@ -37,3 +37,58 @@ class BlogEntryBreakingView(generics.ListAPIView):
     serializer_class = BlogEntrySerializer
     lookup_field = "slug"
     permission_classes = (permissions.AllowAny,)
+    
+class BlogEntryCreateView(generics.ListCreateAPIView):
+    
+    """
+    POST new/
+    """
+    
+    queryset = BlogEntry.objects.all()
+    serializer_class = BlogEntrySerializer
+    permission_classes = (permissions.AllowAny,)
+    
+    def post(self, request, *args, **kwargs):
+        
+        username = request.data.get("username", "")
+        password = request.data.get("password", "")
+        email = request.data.get("email", "")
+        
+        print(request.data)
+        pass
+        
+        return Response (data={
+            "success": True,
+            "message": "post has been created successfully!"
+        })
+        # if not username or not password or not email: # ensures all fields are filled
+        #         return Response(
+        #             data={
+        #                 "message": "username, password and email is required to register a user",
+        #                 "success": False
+        #             },
+        #             status=status.HTTP_400_BAD_REQUEST
+        #         )
+        # try: 
+        #     result = User.objects.get(username=username) # checks to see if user already exists, throws a DoesNotExist Error if a user is not found
+        #     print(f"adasdasdasdasdasdasdasd {result}") 
+        #     if result:
+        #         return Response(data={
+        #             "success": False,
+        #             "message": f"{username} is not available"
+        #         })
+                
+        # except User.DoesNotExist:
+        #     new_user = User.objects.create_user(
+        #             username=username, password=password, email=email
+        #     )
+        #     print(f"adasdasdasdasdasdasdasd {new_user}")
+        #     return Response(data={
+        #         "success": True,
+        #         "message": f"{new_user} successfully created"
+        #     },
+        #         status=status.HTTP_201_CREATED)
+    
+    
+    
+    
