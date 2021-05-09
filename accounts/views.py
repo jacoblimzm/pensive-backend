@@ -126,3 +126,9 @@ class RegisterUsersView(generics.ListCreateAPIView):
                 status=status.HTTP_201_CREATED)
             
         
+class EditUsersView(generics.RetrieveUpdateDestroyAPIView):
+    
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    lookup_field = "username" # query by the username to find details and update or delete. recall that lookup_field must correspond with 
