@@ -9,7 +9,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .serializers import UserSerializer, TokenSerializer
 from django.contrib.auth.models import User # the default User model from django
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 # JWT settings
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -169,3 +169,17 @@ class EditUsersView(generics.RetrieveUpdateDestroyAPIView):
                 status=status.HTTP_200_OK
             )
         
+
+class LogoutView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    def post(self, request, *args, **kwargs):
+        # use django's session framework to log out
+        # remember to DESTROY the JWT on the client localstorage upon logout
+        logout(request)
+        
+        return Response(data={
+            "success": True,
+            "message": "Logged Out Successfully"
+        })
