@@ -89,7 +89,10 @@ class BlogEntryCreateView(generics.ListCreateAPIView):
             # print(new_entry.category_id)
             new_entry.save()
             
+            entry_serialiser = BlogEntrySerializer(new_entry)
+            
             return Response(data={
+                "data": entry_serialiser.data,
                 "success": True,
                 "message": f"{new_entry.title} has been created successfully!"
             }, status=status.HTTP_201_CREATED)
@@ -156,9 +159,14 @@ class BlogEntryEditView(generics.RetrieveUpdateDestroyAPIView):
                 "data": serializer.data,
                 "success": True,
                 "message": f"'{title}' has been updated!",
-                
             })
             
-            # return JsonResponse(existing_post.values("title"), safe=False)
-        
-    
+    def destroy(self, request, *args, **kwargs): # the default way of returning the deleted object as a response
+        serializer = self.get_serializer(self.get_object()) # store the data before deleting it otherwise it's gone
+        print(serializer.data)
+        super().destroy(request, *args, **kwargs) # calling the super class and the method destroy that belongs to it to delete the object
+        return Response(data={
+            "data": serializer.data,
+            "success": True,
+            "message": "post has been deleted!"
+            }, status=status.HTTP_200_OK)
