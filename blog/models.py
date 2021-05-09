@@ -9,18 +9,18 @@ from django.template.defaultfilters import slugify
 
 class Category(models.Model):
     CATEGORY_CHOICES = [
-        ("WORLD", "World"), # first element is the actual value to be set on the model, the second element is the human readable name
-        ("ENVIRONMENT", "Environment"),
-        ("TECHNOLOGY", "Technology"),
-        ("DESIGN", "Design"),
-        ("CULTURE", "Culture"),
-        ("TRAVEL", "Travel"),
-        ("STYLE", "Style"),
-        ("HEALTH", "Health"),
-        ("SCIENCE", "Science"),
-        ("OPINION", "Opinion"),
-        ("POLITICS", "Politics"),
-        ("BUSINESS", "Business"),
+        ("world", "World"), # first element is the actual value to be set on the model, the second element is the human readable name
+        ("environment", "Environment"),
+        ("technology", "Technology"),
+        ("design", "Design"),
+        ("culture", "Culture"),
+        ("travel", "Travel"),
+        ("style", "Style"),
+        ("health", "Health"),
+        ("science", "Science"),
+        ("opinion", "Opinion"),
+        ("politics", "Politics"),
+        ("business", "Business"),
     ]
     category_name = models.CharField(
         max_length=20,
