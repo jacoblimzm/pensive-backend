@@ -156,8 +156,6 @@ class BlogEntryEditView(generics.RetrieveUpdateDestroyAPIView):
                 "message": f"'{title}' has been updated!"
             })
             
-            
-            
             # return JsonResponse(existing_post.values("title"), safe=False)
         
     
