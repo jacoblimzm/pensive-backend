@@ -3,8 +3,8 @@ from .views import BlogEntryListView, BlogEntryDetailView, BlogEntryBreakingView
 
 urlpatterns = [
     path("", BlogEntryListView.as_view()),
-    path("breaking", BlogEntryBreakingView.as_view()),
-    path("categories", CategoryListView.as_view()),
+    path("breaking/", BlogEntryBreakingView.as_view()),
+    path("categories/", CategoryListView.as_view()),
     path("categories/<category_name>", CategoryDetailView.as_view()),
     path("<slug>", BlogEntryDetailView.as_view()),
 ]
