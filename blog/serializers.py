@@ -7,7 +7,7 @@ class BlogEntrySerializer(serializers.ModelSerializer):
         model = BlogEntry
         fields = "__all__"
         lookup_field = "slug" # this tells the serializer to query the database using the "slug" property instead of "id" when passed a param in the urls.py
-        
+        depth = 2
         
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
