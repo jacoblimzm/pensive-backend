@@ -73,7 +73,7 @@ class BlogEntry(models.Model):
     breaking = models.BooleanField(default=False) # we only want 1 post to be breaking at any one time
     created_on = models.DateTimeField(default=datetime.now, blank=True)
     
-    def save(self, *args, **kwargs): # overriding the default save behaviour with some custom logic
+    def save(self, *args, **kwargs): # overriding the default save behaviour with some custom logic for 'breaking' property
         original_slug = slugify(self.title)
         queryset = BlogEntry.objects.all().filter(slug__iexact=original_slug).count() # count how many posts in the db have the same title
         if queryset == 0:
