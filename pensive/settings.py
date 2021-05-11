@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +33,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -86,11 +88,13 @@ WSGI_APPLICATION = 'pensive.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "pensivedb",
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': "pensivedb",
+    # }
 }
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
 
 
 # Password validation
@@ -183,7 +187,13 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 
 SUMMERNOTE_THEME = "bs4"
 
+CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", # allow connections from front end CRA
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000", # allow connections from front end CRA
+# ]
+
+django_heroku.settings(locals())
+
+options = DATABASES['default'].get('OPTIONS', {})
+options.pop('sslmode', None)
