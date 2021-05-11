@@ -17,4 +17,4 @@ class CategorySerializer(serializers.ModelSerializer):
             "category_name",
             "blogentries", # recall that one category can have many entries, so this is how they are linked
         )
-        depth = 1        
+        depth = 2        
