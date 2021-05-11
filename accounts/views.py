@@ -98,6 +98,7 @@ class RegisterUsersView(generics.ListCreateAPIView):
         username = request.data.get("username", "")
         password = request.data.get("password", "")
         email = request.data.get("email", "")
+        is_staff = request.data.get("is_staff", "")
         
         if not username or not password or not email: # ensures all fields are filled
                 return Response(
@@ -118,7 +119,7 @@ class RegisterUsersView(generics.ListCreateAPIView):
                 
         except User.DoesNotExist:
             new_user = User.objects.create_user(
-                    username=username, password=password, email=email
+                    username=username, password=password, email=email, is_staff=is_staff
             )
             print(f"adasdasdasdasdasdasdasd {new_user}")
             return Response(data={
