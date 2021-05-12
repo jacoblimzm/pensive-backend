@@ -48,7 +48,7 @@ class BlogEntryCreateView(generics.ListCreateAPIView):
     
     queryset = BlogEntry.objects.all()
     serializer_class = BlogEntrySerializer
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
     
     def post(self, request, *args, **kwargs):
         
@@ -149,6 +149,7 @@ class BlogEntryEditView(generics.RetrieveUpdateDestroyAPIView):
             existing_post.breaking = breaking
             existing_post.category_id = category_id # the django model automatically assigns and _id to a foreign key. remember to include
             
+            existing_post.save() ## have to save so the slug gets updated as well.
             serializer = BlogEntrySerializer(existing_post) # serialise the updated data to be sent back to the front end
             # print(serializer.data)
             # print(existing_post.category_id) 
