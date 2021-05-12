@@ -107,7 +107,7 @@ class BlogEntryEditView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BlogEntry.objects.order_by("-created_on")
     serializer_class = BlogEntrySerializer
     lookup_field = "slug"
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.isAuthenticated,)
     
     def put(self, request, *args, **kwargs):
         # "slug" and "created_at" not necessary since those will be automatically generated on save
@@ -153,7 +153,7 @@ class BlogEntryEditView(generics.RetrieveUpdateDestroyAPIView):
             serializer = BlogEntrySerializer(existing_post) # serialise the updated data to be sent back to the front end
             # print(serializer.data)
             # print(existing_post.category_id) 
-            # existing_post.save()
+            
             
             
             return Response(data={
