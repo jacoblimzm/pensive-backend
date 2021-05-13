@@ -17,6 +17,7 @@ dj-database-url = "*"
 gunicorn = "*"
 channels = "*"
 channels-redis = "*"
+daphne = "*"
 
 [dev-packages]
 
