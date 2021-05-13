@@ -15,8 +15,10 @@
         console.log(document.getElementById("room-name"))
         const roomName = JSON.parse(document.getElementById("room-name").textContent)
         console.log(roomName)
+        // checking to see the protocol, if https is used, websocket must be correspondingly WSS for security
+        const ws_scheme = window.location.protocol == "https" ? "wss" : "ws"
         const chatSocket = new WebSocket(
-            `ws://${window.location.host}/ws/chat/${roomName}/`
+            `${ws_scheme}://${window.location.host}/ws/chat/${roomName}/`
         );
 
         document.getElementById("submit").onclick = () => {
