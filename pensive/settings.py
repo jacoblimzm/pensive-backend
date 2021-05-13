@@ -155,14 +155,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # redis needed as chat database
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
+            "hosts": [(os.getenv("REDIS_URL","127.0.0.1"), 6379)], # the rough equation [("redis-server-name", portNo)]
+        }, # tries to get REDIS_URL env variable and defaults to localhost if not found
     },
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
