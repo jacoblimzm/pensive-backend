@@ -15,6 +15,8 @@ pillow = "*"
 django-heroku = "*"
 dj-database-url = "*"
 gunicorn = "*"
+channels = "*"
+channels-redis = "*"
 
 [dev-packages]
 
