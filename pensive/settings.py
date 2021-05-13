@@ -160,7 +160,8 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(os.getenv("REDIS_URL","127.0.0.1"), 6379)], # the rough equation [("redis-server-name", portNo)]
+            # "hosts": [(os.getenv("REDIS_URL","127.0.0.1"), 6379)], # the rough equation [("redis-server-name", portNo)]
+            "hosts": os.getenv("REDIS_URL"), # for for heroku redis deployment
         }, # tries to get REDIS_URL env variable and defaults to localhost if not found
     },
 }
