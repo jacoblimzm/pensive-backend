@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     "django_summernote",
     "accounts",
     "blog",
+    "chat",
+    "channels",
 ]
 
 MIDDLEWARE = [
@@ -88,12 +90,12 @@ WSGI_APPLICATION = 'pensive.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "pensivedb",
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': "pensivedb",
+    # }
 }
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 
@@ -135,14 +137,33 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # this allows images from a media folder to be loaded as thumbnails
 
+# looks into the project folder for a file named "asgi"
+# "asgi" provides a similar mechanic for channels as "urls" does for HTTP
+# "application" will be the entry point to route data to the consumer for whatever apps you have depending on the request
+# "application" will now handle both HTTP and websockets connections
+ASGI_APPLICATION = "pensive.asgi.application"
+
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# redis needed as chat database
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(os.getenv("REDIS_URL","127.0.0.1"), 6379)], # the rough equation [("redis-server-name", portNo)]
+        }, # tries to get REDIS_URL env variable and defaults to localhost if not found
+    },
+}
 
 
 REST_FRAMEWORK = {
@@ -158,7 +179,7 @@ from datetime import timedelta
 
 #some default JWT settings
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=360),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -179,7 +200,7 @@ SIMPLE_JWT = {
     'JTI_CLAIM': 'jti',
 
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=360),
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=10),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 

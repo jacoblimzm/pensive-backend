@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    {{ room_name|json_script:"room-name" }}
+    <div><button id="submit">Send a message</button></div>
+    <div><button id="submit2">Send another message</button></div>
+    <script>
+        console.log(document.getElementById("room-name"))
+        const roomName = JSON.parse(document.getElementById("room-name").textContent)
+        console.log(roomName)
+        const chatSocket = new WebSocket(
+            `ws://${window.location.host}/ws/chat/${roomName}/`
+        );
+
+        document.getElementById("submit").onclick = () => {
+            chatSocket.send(JSON.stringify({
+                "name": "Jacob",
+            "message": "SENT FROM REACT"
+        }))
+        }
+        document.getElementById("submit2").onclick = () => {
+            chatSocket.send(JSON.stringify({
+            "message": "SENT ANOTHER MESSAGE"
+        }))
+        }
+        
+
+        chatSocket.onmessage = (e) => {
+            const data = JSON.parse(e.data);
+            console.log(data)
+        }
+
+        
+    </script>
+</body>
+</html>
