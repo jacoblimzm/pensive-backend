@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
 # that will extend the BASE path of routing
 import django
 django.setup() # DJANGO_SETTINGS_MODULE must be defined in environement variables
+# django.setup() must be at the top.
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 import chat.routing # importing from chat folder
