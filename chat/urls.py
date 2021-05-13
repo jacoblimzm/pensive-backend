@@ -8,6 +8,5 @@ from . import views # import the FUNCTIONS from views.py in the same level folde
 # this is to create a 'once source of truth' for your paths, in case the path is used many times across the app
 
 urlpatterns = [
-    path("", views.index, name="index"),
     path("<str:room_name>/", views.chat_room, name="chat_room")
 ]
