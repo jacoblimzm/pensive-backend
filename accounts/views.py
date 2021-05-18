@@ -65,34 +65,6 @@ class RegisterUsersView(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-    # def post(self, request, *args, **kwargs):
-    #     username = request.data.get("username", "")
-    #     password = request.data.get("password", "")
-    #     email = request.data.get("email", "")
-        
-    #     result = User.objects.get(username=username) # checks to see if user already exists
-    #     print(f"adasdasdasdasdasdasdasd {result}") 
-        
-    #     if not username or not password or not email:
-    #         return Response(
-    #             data={
-    #                 "message": "username, password and email is required to register a user",
-    #                 "success": False
-    #             },
-    #             status=status.HTTP_400_BAD_REQUEST
-    #         )
-    #     elif result:
-    #         return Response(data={
-    #             "success": False,
-    #             "message": f"{username} is not available"
-    #         })
-    #     else:
-    #         new_user = User.objects.create_user(
-    #                 username=username, password=password, email=email
-    #         )
-    #         print(f"adasdasdasdasdasdasdasd {new_user}");
-    #         return Response(status=status.HTTP_201_CREATED)
         
     def post(self, request, *args, **kwargs):
         username = request.data.get("username", "")
@@ -110,7 +82,7 @@ class RegisterUsersView(generics.ListCreateAPIView):
                 )
         try: 
             result = User.objects.get(username=username) # checks to see if user already exists, throws a DoesNotExist Error if a user is not found
-            print(f"adasdasdasdasdasdasdasd {result}") 
+            # print(f"adasdasdasdasdasdasdasd {result}") 
             if result:
                 return Response(data={
                     "success": False,
@@ -121,7 +93,7 @@ class RegisterUsersView(generics.ListCreateAPIView):
             new_user = User.objects.create_user(
                     username=username, password=password, email=email, is_staff=is_staff
             )
-            print(f"adasdasdasdasdasdasdasd {new_user}")
+            # print(f"adasdasdasdasdasdasdasd {new_user}")
             return Response(data={
                 "success": True,
                 "message": f"{new_user} successfully created"
